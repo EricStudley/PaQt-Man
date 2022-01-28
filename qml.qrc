@@ -1,0 +1,61 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file alias="main.qml">qml/main.qml</file>
+        <file alias="WindowLoader.qml">qml/WindowLoader.qml</file>
+        <file alias="Interface.qml">qml/Interface.qml</file>
+        <file alias="Gameplay.qml">qml/Gameplay.qml</file>
+        <file alias="Map.qml">qml/Map.qml</file>
+        <file alias="Object.qml">qml/Object.qml</file>
+        <file alias="Player.qml">qml/Player.qml</file>
+        <file alias="Ghost.qml">qml/Ghost.qml</file>
+        <file alias="Item.qml">qml/Item.qml</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="coin">images/gameplay/coin.png</file>
+        <file alias="ghost0">images/gameplay/ghost0.png</file>
+        <file alias="ghost0bottom0">images/gameplay/ghost0bottom0.png</file>
+        <file alias="ghost0bottom1">images/gameplay/ghost0bottom1.png</file>
+        <file alias="ghost0top0">images/gameplay/ghost0top0.png</file>
+        <file alias="ghost0top1">images/gameplay/ghost0top1.png</file>
+        <file alias="ghost0top2">images/gameplay/ghost0top2.png</file>
+        <file alias="ghost0top3">images/gameplay/ghost0top3.png</file>
+        <file alias="ghost1">images/gameplay/ghost1.png</file>
+        <file alias="ghost1bottom0">images/gameplay/ghost1bottom0.png</file>
+        <file alias="ghost1bottom1">images/gameplay/ghost1bottom1.png</file>
+        <file alias="ghost1top0">images/gameplay/ghost1top0.png</file>
+        <file alias="ghost1top1">images/gameplay/ghost1top1.png</file>
+        <file alias="ghost1top2">images/gameplay/ghost1top2.png</file>
+        <file alias="ghost1top3">images/gameplay/ghost1top3.png</file>
+        <file alias="ghost2">images/gameplay/ghost2.png</file>
+        <file alias="ghost2bottom0">images/gameplay/ghost2bottom0.png</file>
+        <file alias="ghost2bottom1">images/gameplay/ghost2bottom1.png</file>
+        <file alias="ghost2top0">images/gameplay/ghost2top0.png</file>
+        <file alias="ghost2top1">images/gameplay/ghost2top1.png</file>
+        <file alias="ghost2top2">images/gameplay/ghost2top2.png</file>
+        <file alias="ghost2top3">images/gameplay/ghost2top3.png</file>
+        <file alias="ghost3">images/gameplay/ghost3.png</file>
+        <file alias="ghost3bottom0">images/gameplay/ghost3bottom0.png</file>
+        <file alias="ghost3bottom1">images/gameplay/ghost3bottom1.png</file>
+        <file alias="ghost3top0">images/gameplay/ghost3top0.png</file>
+        <file alias="ghost3top1">images/gameplay/ghost3top1.png</file>
+        <file alias="ghost3top2">images/gameplay/ghost3top2.png</file>
+        <file alias="ghost3top3">images/gameplay/ghost3top3.png</file>
+        <file alias="border">images/interface/border.png</file>
+        <file alias="close_icon">images/interface/close_icon.png</file>
+        <file alias="interface_background">images/interface/interface_background.png</file>
+        <file alias="interface_border_unlocked">images/interface/interface_border_unlocked.png</file>
+        <file alias="player0type0">images/gameplay/player0type0.png</file>
+        <file alias="player0type1">images/gameplay/player0type1.png</file>
+        <file alias="player0type2">images/gameplay/player0type2.png</file>
+        <file alias="player0type3">images/gameplay/player0type3.png</file>
+        <file alias="player1type0">images/gameplay/player1type0.png</file>
+        <file alias="player1type1">images/gameplay/player1type1.png</file>
+        <file alias="player1type2">images/gameplay/player1type2.png</file>
+        <file alias="player1type3">images/gameplay/player1type3.png</file>
+    </qresource>
+    <qresource prefix="/js">
+        <file alias="paQtmanJS.js">js/paQtmanJS.js</file>
+    </qresource>
+    <qresource prefix="/">
+    </qresource>
+</RCC>
