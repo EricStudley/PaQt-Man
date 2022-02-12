@@ -141,7 +141,7 @@ var addPlayerToGameQueue = function (map, uuid, ws, game_id) {
                         uuid: uuid,
                         type: 1,
                         state: "player",
-                        style: 1,
+                        style: index,
                         score: 0,
                         is_alive: true,
                         x: gameInfo.data.meta.playerIndices[index][1],
@@ -155,12 +155,13 @@ var addPlayerToGameQueue = function (map, uuid, ws, game_id) {
 
                     return resultingObj
                 }, {}),
-                ghosts: _.reduce(_.map(gameInfo.data.meta.ghostIndices, function (ghostXY) {
+                ghosts: _.reduce(_.map(gameInfo.data.meta.ghostIndices, function (ghostXY, index) {
                     return {
                         uuid: _generateUUID(),
                         type: 2,
                         state: "",
-                        style: 1,
+                        style: index,
+                        is_alive: true,
                         x: ghostXY[1],
                         y: ghostXY[0],
                         dx: 0,
@@ -349,7 +350,7 @@ setInterval(function () {
 
                     // Pick a random open space from what's left.
 
-                    newSpace = validPositionList[Math.floor(Math.random() * validPositionList.length)]
+                    newSpace = validPositionList[_.random(0, validPositionList.length - 1)]
                 }
 
                 // Updating dx dy to move to new space.
@@ -364,22 +365,26 @@ setInterval(function () {
                 case Directions.DOWN:  entity.dy =  1; break
                 }
 
+                entity.direction = newSpace
+
                 // Actually move the ghost
                 // Want to add an attribute called "what to redraw" so it draws food or no food for example
                 newX = entity.x + entity.dx
                 newY = entity.y + entity.dy
 
+                whatsInNewSpace = map[newY][newX]
+
                 map[entity.y][entity.x] = entity.whatWillBeInSpaceAfterMoving || MapType.COIN
 
                 entity.x = newX
                 entity.y = newY
-                entity.whatWillBeInSpaceAfterMoving = map[newY][newX]
+                entity.whatWillBeInSpaceAfterMoving = whatsInNewSpace
 
                 map[newY][newX] = 'G'
 
-                entity.whatWillBeInSpaceAfterMoving = whatsInNewSpace // long name lol
+                console.log(whatsInNewSpace)
 
-                if ("P" === whatsInNewSpace) {
+                if ('S' === whatsInNewSpace || 'S' === map[entity.y][entity.x]) {
                     console.log('player died')
 
                     entity.whatWillBeInSpaceAfterMoving = '#'

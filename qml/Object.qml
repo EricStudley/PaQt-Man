@@ -10,7 +10,7 @@ Item {
     y: height * role_position.y
     width: root.width / Logic.mapSize
     height: root.height / Logic.mapSize
-    rotation: role_direction * 90
+    rotation: role_type === DisplayType.Player ? role_direction * 90 : 0
 
     property int speed: role_type === DisplayType.Player ? Logic.playerSpeedDefault : Logic.ghostSpeedDefault
 

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qmlRegisterUncreatableType<DisplayObject>("Enums",1,0,"DisplayType","Error: DisplayType is non-instantiable.");
+    qmlRegisterUncreatableType<DisplayObject>("Enums", 1, 0, "DisplayType", "Error: DisplayType is non-instantiable.");
 
     ApplicationManager *applicationManager = new ApplicationManager(&app);
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperties(contextProperties);
 
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
+    const QUrl url("qrc:/qml/main.qml");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)

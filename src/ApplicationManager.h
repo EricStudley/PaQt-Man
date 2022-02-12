@@ -14,10 +14,10 @@ public:
 
     Q_INVOKABLE void processMessage(const QJsonObject &message);
 
-    DisplayModel *displayModel() { return m_displayModel; }
-    MapModel *mapModel() { return m_mapModel; }
+    DisplayModel* displayModel() { return m_displayModel; }
+    MapModel* mapModel() { return m_mapModel; }
 
 private:
-    DisplayModel *m_displayModel = new DisplayModel(this);
-    MapModel *m_mapModel = new MapModel(this);
+    DisplayModel* m_displayModel = new DisplayModel(this);
+    MapModel* m_mapModel = new MapModel(this);
 };

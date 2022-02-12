@@ -12,28 +12,24 @@
     </qresource>
     <qresource prefix="/images">
         <file alias="coin">images/gameplay/coin.png</file>
-        <file alias="ghost0">images/gameplay/ghost0.png</file>
         <file alias="ghost0bottom0">images/gameplay/ghost0bottom0.png</file>
         <file alias="ghost0bottom1">images/gameplay/ghost0bottom1.png</file>
         <file alias="ghost0top0">images/gameplay/ghost0top0.png</file>
         <file alias="ghost0top1">images/gameplay/ghost0top1.png</file>
         <file alias="ghost0top2">images/gameplay/ghost0top2.png</file>
         <file alias="ghost0top3">images/gameplay/ghost0top3.png</file>
-        <file alias="ghost1">images/gameplay/ghost1.png</file>
         <file alias="ghost1bottom0">images/gameplay/ghost1bottom0.png</file>
         <file alias="ghost1bottom1">images/gameplay/ghost1bottom1.png</file>
         <file alias="ghost1top0">images/gameplay/ghost1top0.png</file>
         <file alias="ghost1top1">images/gameplay/ghost1top1.png</file>
         <file alias="ghost1top2">images/gameplay/ghost1top2.png</file>
         <file alias="ghost1top3">images/gameplay/ghost1top3.png</file>
-        <file alias="ghost2">images/gameplay/ghost2.png</file>
         <file alias="ghost2bottom0">images/gameplay/ghost2bottom0.png</file>
         <file alias="ghost2bottom1">images/gameplay/ghost2bottom1.png</file>
         <file alias="ghost2top0">images/gameplay/ghost2top0.png</file>
         <file alias="ghost2top1">images/gameplay/ghost2top1.png</file>
         <file alias="ghost2top2">images/gameplay/ghost2top2.png</file>
         <file alias="ghost2top3">images/gameplay/ghost2top3.png</file>
-        <file alias="ghost3">images/gameplay/ghost3.png</file>
         <file alias="ghost3bottom0">images/gameplay/ghost3bottom0.png</file>
         <file alias="ghost3bottom1">images/gameplay/ghost3bottom1.png</file>
         <file alias="ghost3top0">images/gameplay/ghost3top0.png</file>
@@ -56,6 +52,5 @@
     <qresource prefix="/js">
         <file alias="paQtmanJS.js">js/paQtmanJS.js</file>
     </qresource>
-    <qresource prefix="/">
-    </qresource>
+    <qresource prefix="/"/>
 </RCC>

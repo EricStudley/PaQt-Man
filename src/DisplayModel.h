@@ -31,7 +31,8 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    void updateObjects(const DisplayObject::DisplayType& objectType, const QJsonObject &updatedObjects);
+    void updateObjects(const QJsonObject &updatedObjects);
 
-    QList<DisplayObject*> m_objects;
+    QMap<QString, DisplayObject*> m_objects;
+    QStringList m_objectUuids;
 };

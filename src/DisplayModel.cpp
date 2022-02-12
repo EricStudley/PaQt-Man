@@ -18,7 +18,9 @@ QVariant DisplayModel::data(const QModelIndex& index, int role) const
     if (index.row() < 0 || index.row() >= m_objects.count())
         return {};
 
-    const DisplayObject* object = m_objects[index.row()];
+    const int row = index.row();
+    const QString key = m_objectUuids.at(row);
+    const DisplayObject* object = m_objects[key];
 
     if (role == UuidRole)
         return object->uuid();
@@ -43,8 +45,9 @@ bool DisplayModel::setData(const QModelIndex& index, const QVariant& value, int 
     if (!index.isValid())
         return false;
 
-    int row = index.row();
-    DisplayObject* object = m_objects[row];
+    const int row = index.row();
+    const QString key = m_objectUuids.at(row);
+    DisplayObject* object = m_objects[key];
 
     if (role == UuidRole)
         object->setUuid(value.toString());
@@ -84,96 +87,83 @@ void DisplayModel::processMessage(const QJsonObject& message)
     QJsonValue objectList = message["objects"];
 
     QJsonObject playerObjects = objectList["players"].toObject();
-    updateObjects(DisplayObject::DisplayType::Player, playerObjects);
+    updateObjects(playerObjects);
 
     QJsonObject ghostObjects = objectList["ghosts"].toObject();
-    updateObjects(DisplayObject::DisplayType::Ghost, ghostObjects);
+    updateObjects(ghostObjects);
 }
 
-void DisplayModel::updateObjects(const DisplayObject::DisplayType& objectType, const QJsonObject& updatedObjects)
+void DisplayModel::updateObjects(const QJsonObject& updatedObjects)
 {
+    if (updatedObjects.isEmpty())
+        return;
+
     QSet<QString> oldUuidSet;
     QSet<QString> newUuidSet;
 
-    for (const DisplayObject* oldObject : qAsConst(m_objects)) {
-        oldUuidSet.insert(oldObject->uuid());
-    }
-
-    for (const QJsonValue& newObject : updatedObjects) {
-        QJsonObject jsonObj = newObject.toObject();
-        QString uuid = jsonObj.value("uuid").toString();
-        int style = jsonObj.value("style").toInt();
-        int x = jsonObj.value("x").toInt();
-        int y = jsonObj.value("y").toInt();
+    for (const QJsonValue& updatedValue : updatedObjects) {
+        QJsonObject updatedObject = updatedValue.toObject();
+        QString uuid = updatedObject.value("uuid").toString();
+        int style = updatedObject.value("style").toInt();
+        int x = updatedObject.value("x").toInt();
+        int y = updatedObject.value("y").toInt();
         QPoint position = QPoint(x, y);
-        bool moving = jsonObj.value("moving").toBool();
-        int direction = jsonObj.value("direction").toInt();
+        bool moving = updatedObject.value("moving").toBool();
+        int direction = updatedObject.value("direction").toInt();
+        int type = updatedObject.value("type").toInt();
+        QString state = updatedObject.value("state").toString();
+        bool alive = updatedObject.value("is_alive").toBool();
 
-        newUuidSet.insert(uuid);
+        if (!alive) {
 
-        bool exists = false;
-
-        for (int i = 0; i < m_objects.count(); i++) {
-            DisplayObject* object = m_objects[i];
-            QString oldUuid = object->uuid();
-
-            if (object->type() != objectType) {
-                continue;
+            if (m_objects.contains(uuid)) {
+                oldUuidSet.insert(uuid);
             }
-
-            if (oldUuid == uuid) {
-                exists = true;
-
-                //                qDebug() << "Updating existing DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
-
-                setData(index(i, 0), style, StyleRole);
-                setData(index(i, 0), position, PositionRole);
-                setData(index(i, 0), moving, MovingRole);
-                setData(index(i, 0), direction, DirectionRole);
-
-                break;
-            }
+            continue;
         }
 
-        if (!exists) {
+        if (m_objects.contains(uuid)) {
+            oldUuidSet.insert(uuid);
+
+            int objectIndex = m_objectUuids.indexOf(uuid);
+
+            qDebug() << objectIndex << "Updating existing DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
+
+            setData(index(objectIndex, 0), style, StyleRole);
+            setData(index(objectIndex, 0), position, PositionRole);
+            setData(index(objectIndex, 0), moving, MovingRole);
+            setData(index(objectIndex, 0), direction, DirectionRole);
+        }
+        else {
             DisplayObject* newObject = new DisplayObject();
             newObject->setUuid(uuid);
-
-            int type = jsonObj.value("type").toInt();
-            DisplayObject::DisplayType objectType = static_cast<DisplayObject::DisplayType>(type);
-            newObject->setType(objectType);
-
-            QString state = jsonObj.value("state").toString();
+            newObject->setType(static_cast<DisplayObject::DisplayType>(type));
             newObject->setState(state);
-
             newObject->setStyle(style);
             newObject->setPosition(position);
             newObject->setDirection(direction);
             newObject->setMoving(moving);
 
-            qDebug() << "Creating new DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
+            qDebug() << m_objectUuids.length() << "Creating new DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
 
-            beginInsertRows(QModelIndex(), m_objects.count(), m_objects.count());
-            m_objects += newObject;
+            beginInsertRows(QModelIndex(), m_objectUuids.length(), m_objectUuids.length());
+            m_objects[uuid] = newObject;
+            m_objectUuids.append(uuid);
             endInsertRows();
         }
+
+        newUuidSet.insert(uuid);
     }
 
-    QSet<QString> removedUuidSet = oldUuidSet - newUuidSet;
+    const QSet<QString> removedUuidSet = oldUuidSet - newUuidSet;
 
-    for (const QString& removedUuid : qAsConst(removedUuidSet)) {
+    for (const QString& removedUuid : removedUuidSet) {
+        int objectIndex = m_objectUuids.indexOf(removedUuid);
+        beginRemoveRows(QModelIndex(), objectIndex, objectIndex);
+        m_objects.remove(removedUuid);
+        m_objectUuids.removeAll(removedUuid);
+        endRemoveRows();
 
-        for (DisplayObject* object : qAsConst(m_objects)) {
-            QString uuid = object->uuid();
-
-            if (uuid == removedUuid) {
-                qDebug() << "Removing DisplayObject. Uuid:" << removedUuid;
-
-                int i = m_objects.indexOf(object);
-                beginRemoveRows(QModelIndex(), i, i);
-                m_objects.removeAt(i);
-                endRemoveRows();
-            }
-        }
+        qDebug() << objectIndex << "Removing DisplayObject. Uuid:" << removedUuid;
     }
 }
