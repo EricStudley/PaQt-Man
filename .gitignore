@@ -66,6 +66,9 @@ Thumbs.db
 # Python byte code
 *.pyc
 
+# CMake user files
+CMakeLists.txt.user
+
 # Binaries
 # --------
 *.dll
