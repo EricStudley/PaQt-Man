@@ -42,8 +42,10 @@ BorderImage {
         property real lastMouseY: 0
 
         onMouseXChanged: root.x += (mouseX - lastMouseX)
+
         onMouseYChanged: root.y += (mouseY - lastMouseY)
-        onPressed: {
+
+        onPressed: (mouse) => {
             if (mouse.button === Qt.LeftButton) {
                 parent.forceActiveFocus()
                 lastMouseX = mouseX

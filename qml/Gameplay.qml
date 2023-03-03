@@ -1,6 +1,5 @@
 import QtQuick 2.13
 import QtWebSockets 1.0
-import QtGraphicalEffects 1.0
 
 import "qrc:///js/paQtmanJS.js" as Logic
 
@@ -35,7 +34,7 @@ Item {
             }
         }
 
-        onTextMessageReceived: appManager.processMessage(JSON.parse(message))
+        onTextMessageReceived: (message) => appManager.processMessage(JSON.parse(message))
     }
 
     Item {

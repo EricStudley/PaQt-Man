@@ -127,8 +127,6 @@ void DisplayModel::updateObjects(const QJsonObject& updatedObjects)
 
             int objectIndex = m_objectUuids.indexOf(uuid);
 
-            qDebug() << objectIndex << "Updating existing DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
-
             setData(index(objectIndex, 0), style, StyleRole);
             setData(index(objectIndex, 0), position, PositionRole);
             setData(index(objectIndex, 0), moving, MovingRole);
@@ -143,8 +141,6 @@ void DisplayModel::updateObjects(const QJsonObject& updatedObjects)
             newObject->setPosition(position);
             newObject->setDirection(direction);
             newObject->setMoving(moving);
-
-            qDebug() << m_objectUuids.length() << "Creating new DisplayObject. Type:" << type << "| State:" << state << "| Uuid:" << uuid;
 
             beginInsertRows(QModelIndex(), m_objectUuids.length(), m_objectUuids.length());
             m_objects[uuid] = newObject;
@@ -163,7 +159,5 @@ void DisplayModel::updateObjects(const QJsonObject& updatedObjects)
         m_objects.remove(removedUuid);
         m_objectUuids.removeAll(removedUuid);
         endRemoveRows();
-
-        qDebug() << objectIndex << "Removing DisplayObject. Uuid:" << removedUuid;
     }
 }
